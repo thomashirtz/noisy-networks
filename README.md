@@ -1,14 +1,14 @@
 <!-- This is commented out. -->
 # noisy-networks
 
-This repository provide a minimal implementation of the [Noisy Networks for Exploration](https://arxiv.org/pdf/1706.10295.pdf) using Pytorch. The actual implementation of this network is avalaible on my [reinforcement-learning](https://github.com/thomashirtz/reinforcement-learning) github repository.
+This repository provide a minimal implementation of the paper [[Noisy Networks for Exploration]](https://arxiv.org/pdf/1706.10295.pdf) using Pytorch. Actual utilization of this network on reinforcement learning algorithms are avalaible on my [[reinforcement-learning]](https://github.com/thomashirtz/reinforcement-learning) github repository.
 
 ## Principle 
 The noisy layers are similar to linear layer, but a noise that can be tuned with "sigma" parameters is added.
 
 <img src="https://render.githubusercontent.com/render/math?math=\Large y=w x%2Bb">
 
-become:  
+Become:  
 
 <img src="https://render.githubusercontent.com/render/math?math=\Large y=\left(\mu^{w}%2B\sigma^{w} \odot \varepsilon^{w}\right) x %2B \mu^{b}%2B\sigma^{b} \odot \varepsilon^{b}">
 
@@ -28,7 +28,7 @@ class DQN(nn.Module):
         return self.fc_3(x)
 ```
 
-become  
+Become:  
 
 ```
 class DQN(nn.Module):
@@ -66,7 +66,7 @@ if not self.training:
     return F.linear(x, weight=self.mu_weight, bias=self.mu_bias)
 ```
 
-In the case of the Independent version, be careful to not input a tuple into the `torch.FloatTensor(features)`, otherwise it will create a tensor with those values. Instead, it is possible to unpack them `torch.FloatTensor(*features)`  
+In the case of the Independent version, be careful to not input a tuple into the `torch.FloatTensor(features)`, otherwise it will create a tensor with those values. Instead, it is possible to unpack them `torch.FloatTensor(*features)`.  
 
 
 
