@@ -12,6 +12,39 @@ become:
 
 <img src="https://render.githubusercontent.com/render/math?math=\Large y=\left(\mu^{w}%2B\sigma^{w} \odot \varepsilon^{w}\right) x %2B \mu^{b}%2B\sigma^{b} \odot \varepsilon^{b}">
 
+## DQN Implemetation example
+
+```
+class DQN(nn.Module):
+    def __init__(self, input_features, output_features):
+        super().__init__()
+        self.fc_1 = nn.Linear(input_features, HIDDEN_UNITS)
+        self.fc_2 = nn.Linear(HIDDEN_UNITS, HIDDEN_UNITS)
+        self.fc_3 = nn.Linear(HIDDEN_UNITS, output_features)
+
+    def forward(self, x):
+        x = F.relu(self.fc_1(x))
+        x = F.relu(self.fc_2(x))
+        return self.fc_3(x)
+```
+
+become  
+
+```
+class DQN(nn.Module):
+    def __init__(self, input_features, output_features):
+        super().__init__()
+        self.noisylayer_1 = FactorisedNoisyLayer(input_features, HIDDEN_UNITS)
+        self.noisylayer_2 = FactorisedNoisyLayer(HIDDEN_UNITS, HIDDEN_UNITS)
+        self.noisylayer_3 = FactorisedNoisyLayer(HIDDEN_UNITS, output_features)
+
+    def forward(self, x):
+        x = F.relu(self.noisylayer_1(x))
+        x = F.relu(self.noisylayer_2(x))
+        return self.noisylayer_3(x)
+```
+For replay function that works with batch, the rest of the code is almost unchanged, since by default, everytime the forward loop is called the noise will change. The other exploration techniques such as epsilon-greedy can be removed.
+
 ## Implementation details
 
 `nn.Parameter()` is indispensable when using tensor as custom parameter, otherwise, the optimizer will not know that they exist.  
