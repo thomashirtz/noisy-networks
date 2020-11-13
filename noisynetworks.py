@@ -18,8 +18,6 @@ class IndependentNoisyLayer(nn.Module):
         self.mu_weight = nn.Parameter(torch.FloatTensor(output_features, input_features))
         self.sigma_weight = nn.Parameter(torch.FloatTensor(output_features, input_features))
 
-        self.epsilon_bias = None
-        self.epsilon_weight = None
         self.register_buffer('epsilon_bias', torch.FloatTensor(output_features))
         self.register_buffer('epsilon_weight', torch.FloatTensor(output_features, input_features))
 
@@ -54,7 +52,7 @@ class IndependentNoisyLayer(nn.Module):
 
 class FactorisedNoisyLayer(nn.Module):
     def __init__(self, input_features, output_features, sigma=0.5):
-        super(FactorisedNoisyLayer).__init__()
+        super().__init__()
 
         self.input_features = input_features
         self.output_features = output_features
@@ -67,8 +65,6 @@ class FactorisedNoisyLayer(nn.Module):
         self.mu_weight = nn.Parameter(torch.FloatTensor(output_features, input_features))
         self.sigma_weight = nn.Parameter(torch.FloatTensor(output_features, input_features))
 
-        self.epsilon_input = None
-        self.epsilon_output = None
         self.register_buffer('epsilon_input', torch.FloatTensor(input_features))
         self.register_buffer('epsilon_output', torch.FloatTensor(output_features))
 
