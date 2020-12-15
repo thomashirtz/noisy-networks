@@ -15,11 +15,13 @@ Become:
 ## DQN Implemetation example
 
 ```
+import torch.nn as nn
+
 class DQN(nn.Module):
-    def __init__(self, input_features, output_features):
+    def __init__(self, input_features, output_features, hidden_units):
         super().__init__()
-        self.fc_1 = nn.Linear(input_features, HIDDEN_UNITS)
-        self.fc_2 = nn.Linear(HIDDEN_UNITS, output_features)
+        self.fc_1 = nn.Linear(input_features, hidden_units)
+        self.fc_2 = nn.Linear(hidden_units, output_features)
 
     def forward(self, x):
         x = F.relu(self.fc_1(x))
@@ -29,13 +31,14 @@ class DQN(nn.Module):
 Become:  
 
 ```
+import torch.nn as nn
 from noisynetworks import FactorisedNoisyLayer
 
 class DQN(nn.Module):
-    def __init__(self, input_features, output_features):
+    def __init__(self, input_features, output_features, hidden_units):
         super().__init__()
-        self.noisylayer_1 = FactorisedNoisyLayer(input_features, HIDDEN_UNITS)
-        self.noisylayer_2 = FactorisedNoisyLayer(HIDDEN_UNITS, output_features)
+        self.noisylayer_1 = FactorisedNoisyLayer(input_features, hidden_units)
+        self.noisylayer_2 = FactorisedNoisyLayer(hidden_units, output_features)
 
     def forward(self, x):
         x = F.relu(self.noisylayer_1(x))
