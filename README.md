@@ -1,10 +1,10 @@
 <!-- This is commented out. -->
 # noisy-networks
 
-This repository provide a minimal implementation of the paper [[Noisy Networks for Exploration]](https://arxiv.org/pdf/1706.10295.pdf) using Pytorch. Actual utilization of this network on reinforcement learning algorithms are avalaible on my [[reinforcement-learning]](https://github.com/thomashirtz/reinforcement-learning) github repository.
+This repository provide a minimal implementation of the paper [Noisy Networks for Exploration](https://arxiv.org/pdf/1706.10295.pdf) using Pytorch. Integration examples of this network on reinforcement learning algorithms/tasks are avalaible on my [reinforcement-learning](https://github.com/thomashirtz/reinforcement-learning) github repository.
 
 ## Principle 
-The noisy layers are similar to linear layer, but a noise that can be tuned with "sigma" parameters is added.
+Noisy layers are similar linear layers, except that a noise that can be tuned during the training (sigma) is added.
 
 <img src="https://render.githubusercontent.com/render/math?math=\Large y=w x%2Bb">
 
