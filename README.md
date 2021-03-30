@@ -37,12 +37,12 @@ from noisynetworks import FactorisedNoisyLayer
 class DQN(nn.Module):
     def __init__(self, input_features, output_features, hidden_units):
         super().__init__()
-        self.noisylayer_1 = FactorisedNoisyLayer(input_features, hidden_units)
-        self.noisylayer_2 = FactorisedNoisyLayer(hidden_units, output_features)
+        self.noisy_layer_1 = FactorisedNoisyLayer(input_features, hidden_units)
+        self.noisy_layer_2 = FactorisedNoisyLayer(hidden_units, output_features)
 
     def forward(self, x):
-        x = F.relu(self.noisylayer_1(x))
-        return self.noisylayer_2(x)
+        x = F.relu(self.noisy_layer_1(x))
+        return self.noisy_layer_2(x)
 ```
 For replay function that works with batch, the rest of the code is almost unchanged, since by default, everytime the forward loop is called the noise will change. The other exploration techniques such as epsilon-greedy can be removed.
 
