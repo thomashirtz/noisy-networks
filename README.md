@@ -1,4 +1,3 @@
-<!-- This is commented out. -->
 # noisy-networks
 
 This repository provide a minimal implementation of the paper [Noisy Networks for Exploration](https://arxiv.org/pdf/1706.10295.pdf) using Pytorch. Integration examples of this network on reinforcement learning algorithms/tasks are avalaible on my [reinforcement-learning](https://github.com/thomashirtz/reinforcement-learning) github repository.
@@ -14,7 +13,7 @@ Become:
 
 ## DQN Implemetation example
 
-```
+```python
 import torch.nn as nn
 
 class DQN(nn.Module):
@@ -30,7 +29,7 @@ class DQN(nn.Module):
 
 Become:  
 
-```
+```python
 import torch.nn as nn
 from noisynetworks import FactorisedNoisyLayer
 
@@ -71,7 +70,7 @@ In the case of the Independent version, be careful to not input a tuple into the
 
 # Installation
 Direct Installation from github using pip by running this command:
-```
+```shell
 pip install git+https://github.com/thomashirtz/noisy-networks#egg=noisynetworks
 ```
 
