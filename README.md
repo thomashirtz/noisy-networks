@@ -74,3 +74,13 @@ Direct Installation from github using pip by running this command:
 pip install git+https://github.com/thomashirtz/noisy-networks#egg=noisynetworks
 ```
 
+# Original Paper
+```BibTeX
+@paper{fortunato2019noisy,
+      title={Noisy Networks for Exploration}, 
+      author={Meire Fortunato and Mohammad Gheshlaghi Azar and Bilal Piot and Jacob Menick and Ian Osband and Alex Graves and Vlad Mnih and Remi Munos and Demis Hassabis and Olivier Pietquin and Charles Blundell and Shane Legg},
+      year={2019},
+      eprint={1706.10295},
+      archivePrefix={arXiv}
+}
+```
