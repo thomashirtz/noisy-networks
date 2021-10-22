@@ -46,7 +46,7 @@ class IndependentNoisyLayer(nn.Module):
         self.epsilon_weight = self.get_noise_tensor((self.output_features, self.input_features))
 
     def get_noise_tensor(self, features: tuple) -> torch.Tensor:
-        noise = torch.FloatTensor(*features).uniform_(-self.bound, self.bound)
+        noise = torch.FloatTensor(*features).uniform_(-self.bound, self.bound).to(self.mu_bias.device)
         return torch.sign(noise) * torch.sqrt(torch.abs(noise))
 
 
@@ -93,5 +93,5 @@ class FactorisedNoisyLayer(nn.Module):
         self.epsilon_output = self.get_noise_tensor(self.output_features)
 
     def get_noise_tensor(self, features: int) -> torch.Tensor:
-        noise = torch.FloatTensor(features).uniform_(-self.bound, self.bound)
+        noise = torch.FloatTensor(features).uniform_(-self.bound, self.bound).to(self.mu_bias.device)
         return torch.sign(noise) * torch.sqrt(torch.abs(noise))
