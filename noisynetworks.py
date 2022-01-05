@@ -4,7 +4,12 @@ import torch.nn.functional as F
 
 
 class IndependentNoisyLayer(nn.Module):
-    def __init__(self, input_features, output_features, sigma: float = 0.017):
+    def __init__(
+            self,
+            input_features: int,
+            output_features: int,
+            sigma: float = 0.017
+    ):
         super().__init__()
 
         self.input_features = input_features
@@ -24,13 +29,17 @@ class IndependentNoisyLayer(nn.Module):
         self.parameter_initialization()
         self.sample_noise()
 
-    def parameter_initialization(self):
+    def parameter_initialization(self) -> None:
         self.sigma_bias.data.fill_(self.sigma)
         self.sigma_weight.data.fill_(self.sigma)
         self.mu_bias.data.uniform_(-self.bound, self.bound)
         self.mu_weight.data.uniform_(-self.bound, self.bound)
 
-    def forward(self, x: torch.Tensor, sample_noise: bool = True) -> torch.Tensor:
+    def forward(
+            self,
+            x: torch.Tensor,
+            sample_noise: bool = True
+    ) -> torch.Tensor:
         if not self.training:
             return F.linear(x, weight=self.mu_weight, bias=self.mu_bias)
 
@@ -41,7 +50,7 @@ class IndependentNoisyLayer(nn.Module):
         weight = self.sigma_weight * self.epsilon_weight + self.mu_weight
         return F.linear(x, weight=weight, bias=bias)
 
-    def sample_noise(self):
+    def sample_noise(self) -> None:
         self.epsilon_bias = self.get_noise_tensor((self.output_features,))
         self.epsilon_weight = self.get_noise_tensor((self.output_features, self.input_features))
 
@@ -51,7 +60,12 @@ class IndependentNoisyLayer(nn.Module):
 
 
 class FactorisedNoisyLayer(nn.Module):
-    def __init__(self, input_features, output_features, sigma=0.5):
+    def __init__(
+            self,
+            input_features: int,
+            output_features: int,
+            sigma: float = 0.5
+    ):
         super().__init__()
 
         self.input_features = input_features
@@ -71,13 +85,17 @@ class FactorisedNoisyLayer(nn.Module):
         self.parameter_initialization()
         self.sample_noise()
 
-    def parameter_initialization(self):
+    def parameter_initialization(self) -> None:
         self.mu_bias.data.uniform_(-self.bound, self.bound)
         self.sigma_bias.data.fill_(self.sigma * self.bound)
         self.mu_weight.data.uniform_(-self.bound, self.bound)
         self.sigma_weight.data.fill_(self.sigma * self.bound)
 
-    def forward(self, x: torch.Tensor, sample_noise: bool = True) -> torch.Tensor:
+    def forward(
+            self,
+            x: torch.Tensor,
+            sample_noise: bool = True
+    ) -> torch.Tensor:
         if not self.training:
             return F.linear(x, weight=self.mu_weight, bias=self.mu_bias)
 
@@ -88,7 +106,7 @@ class FactorisedNoisyLayer(nn.Module):
         bias = self.sigma_bias * self.epsilon_output + self.mu_bias
         return F.linear(x, weight=weight, bias=bias)
 
-    def sample_noise(self):
+    def sample_noise(self) -> None:
         self.epsilon_input = self.get_noise_tensor(self.input_features)
         self.epsilon_output = self.get_noise_tensor(self.output_features)
 
