@@ -1,10 +1,9 @@
-<!-- This is commented out. -->
 # noisy-networks
 
-This repository provide a minimal implementation of the paper [[Noisy Networks for Exploration]](https://arxiv.org/pdf/1706.10295.pdf) using Pytorch. Actual utilization of this network on reinforcement learning algorithms are avalaible on my [[reinforcement-learning]](https://github.com/thomashirtz/reinforcement-learning) github repository.
+This repository provide a minimal implementation of the paper [Noisy Networks for Exploration](https://arxiv.org/pdf/1706.10295.pdf) using Pytorch. Integration examples of this network on reinforcement learning algorithms/tasks are avalaible on my [reinforcement-learning](https://github.com/thomashirtz/reinforcement-learning) github repository.
 
-## Principle 
-The noisy layers are similar to linear layer, but a noise that can be tuned with "sigma" parameters is added.
+### Principle 
+Noisy layers are similar linear layers, except that a noise that can be tuned during the training (sigma) is added.
 
 <img src="https://render.githubusercontent.com/render/math?math=\Large y=w x%2Bb">
 
@@ -12,9 +11,9 @@ Become:
 
 <img src="https://render.githubusercontent.com/render/math?math=\Large y=\left(\mu^{w}%2B\sigma^{w} \odot \varepsilon^{w}\right) x %2B \mu^{b}%2B\sigma^{b} \odot \varepsilon^{b}">
 
-## DQN Implemetation example
+### DQN Implemetation example
 
-```
+```python
 import torch.nn as nn
 
 class DQN(nn.Module):
@@ -30,23 +29,23 @@ class DQN(nn.Module):
 
 Become:  
 
-```
+```python
 import torch.nn as nn
 from noisynetworks import FactorisedNoisyLayer
 
 class DQN(nn.Module):
     def __init__(self, input_features, output_features, hidden_units):
         super().__init__()
-        self.noisylayer_1 = FactorisedNoisyLayer(input_features, hidden_units)
-        self.noisylayer_2 = FactorisedNoisyLayer(hidden_units, output_features)
+        self.noisy_layer_1 = FactorisedNoisyLayer(input_features, hidden_units)
+        self.noisy_layer_2 = FactorisedNoisyLayer(hidden_units, output_features)
 
     def forward(self, x):
-        x = F.relu(self.noisylayer_1(x))
-        return self.noisylayer_2(x)
+        x = F.relu(self.noisy_layer_1(x))
+        return self.noisy_layer_2(x)
 ```
 For replay function that works with batch, the rest of the code is almost unchanged, since by default, everytime the forward loop is called the noise will change. The other exploration techniques such as epsilon-greedy can be removed.
 
-## Implementation details
+### Implementation details
 
 `nn.Parameter()` is indispensable when using tensor as custom parameter, otherwise, the optimizer will not know that they exist.  
 `self.register_buffer()` in the initialization allows to link those parameters to the layer, without setting them as trainable.  
@@ -69,9 +68,20 @@ if not self.training:
 
 In the case of the Independent version, be careful to not input a tuple into the `torch.FloatTensor(features)`, otherwise it will create a tensor with those values. Instead, it is possible to unpack them `torch.FloatTensor(*features)`.  
 
-# Installation
+## Installation
 Direct Installation from github using pip by running this command:
-```
+```shell
 pip install git+https://github.com/thomashirtz/noisy-networks#egg=noisynetworks
 ```
 
+## Original Paper
+```BibTeX
+@paper{fortunato2019noisy,
+      title={Noisy Networks for Exploration}, 
+      author={Meire Fortunato and Mohammad Gheshlaghi Azar and Bilal Piot and Jacob Menick and Ian Osband and Alex Graves 
+              and Vlad Mnih and Remi Munos and Demis Hassabis and Olivier Pietquin and Charles Blundell and Shane Legg},
+      year={2019},
+      eprint={1706.10295},
+      archivePrefix={arXiv}
+}
+```
