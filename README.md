@@ -5,11 +5,15 @@ This repository provide a minimal implementation of the paper [Noisy Networks fo
 ### Principle 
 Noisy layers are similar linear layers, except that a noise that can be tuned during the training (sigma) is added.
 
-<img src="https://render.githubusercontent.com/render/math?math=\Large y=w x%2Bb">
+$$
+y = w x + b
+$$
 
-Become:  
+Becomes:
 
-<img src="https://render.githubusercontent.com/render/math?math=\Large y=\left(\mu^{w}%2B\sigma^{w} \odot \varepsilon^{w}\right) x %2B \mu^{b}%2B\sigma^{b} \odot \varepsilon^{b}">
+$$
+y = (\mu^{w} + \sigma^{w} \odot \varepsilon^{w}) x + \mu^{b} + \sigma^{b} \odot \varepsilon^{b}
+$$
 
 ### DQN Implemetation example
 
